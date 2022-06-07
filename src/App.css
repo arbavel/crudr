@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.col-8 {
+  column-gap: 8;
+}
+
+.col-4 {
+  column-gap: 4;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
