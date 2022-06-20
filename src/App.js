@@ -1,6 +1,7 @@
 import { isEmpty, size } from 'lodash';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import shortid from 'shortid';
+import { getCollection } from './actions';
 import './App.css';
 
 function App() {
@@ -9,6 +10,16 @@ function App() {
   const [editMode, setEditMode] = useState(false)
   const [id, setId] = useState("")
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    (async () => {
+      const result = await getCollection("tasks")
+      console.log(result)
+    })()
+  }, [])
+
+  
+  
 
   const validForm = () => {
     let isValid=true
@@ -81,18 +92,21 @@ function App() {
                 tasks.map((task) => (
                   <li className='list-group-item' key={task.id}>
                     <span className='lead'>{task.name}</span>
+
                     <button 
                       className='btn btn-danger btn-sm float-right mx-2'
                       onClick={() => deleteTask(task.id)}
                     >
                       Eliminar
                     </button>
+
                     <button 
                       className='btn btn-warning btn-sm float-right'
                       onClick={() => editTask(task)}
                     >
                       Editar
-                    </button>                  
+                    </button>   
+
                   </li>
                 ))
               }
@@ -102,9 +116,11 @@ function App() {
           }
         </div>  
         <div className='col-4'>
+          
           <h4  className="text-center">
             { editMode ? "Modificar Tarea" : "Agregar Tarea"}
           </h4>
+
           <form onSubmit={editMode ? saveTask : addTask}>
             {
               error && <span className='text-danger'>{error}</span>
@@ -124,6 +140,7 @@ function App() {
               { editMode ? "Guardar" : "Agregar" }
             </button>
           </form>
+
         </div>
       </div>
     </div>
